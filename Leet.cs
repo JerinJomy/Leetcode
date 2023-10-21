@@ -1,4 +1,7 @@
+using System.ComponentModel;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.XPath;
 
 public class Solution
 {
@@ -255,6 +258,57 @@ public class Solution
         }
     }
 
+    public TreeNode PopulateTree(int[] numbers)
+    {
+        //0,1,2,3,4,6
+        var numberQueue = new Queue<TreeNode>();
+        if (!numbers.Any())
+        {
+            return null;
+        }
+        var treeNode = new TreeNode(numbers[0]);
+        var parentNode = treeNode;
+        for (int i = 1; i < numbers.Length; i++)
+        {
+            if (parentNode.left == null)
+            {
+                parentNode.left = new TreeNode(numbers[i]);
+                numberQueue.Enqueue(parentNode.left);
+            }
+            else if (parentNode.right == null)
+            {
+                parentNode.right = new TreeNode(numbers[i]);
+                numberQueue.Enqueue(parentNode.right);
+                parentNode = numberQueue.Dequeue();
+            }
+        }
+        return treeNode;
+    }
+
+    public void PrintInorder(TreeNode node)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        PrintInorder(node.left);
+        Console.WriteLine(node.val);
+        PrintInorder(node.right);
+    }
+
+
+    public void PrintPreorder(TreeNode node)
+    {
+        if(node == null)
+        {
+            return;
+        }
+
+        Console.WriteLine(node.val);
+        PrintPreorder(node.left);
+        PrintPreorder(node.right);
+    }
 
     // public ListNode MergeList(ListNode l1, ListNode l2)
     // {
@@ -301,6 +355,28 @@ public class Solution
         return list;
     }
 
+    public void pythoin(int[] nums1, int m, int[] nums2, int n)
+    {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+        while (i >= 0 || j >= 0)
+        {
+            var n1 = i >= 0 ? nums1[i] : int.MinValue;
+            var n2 = j >= 0 ? nums2[j] : int.MinValue;
+            if (n1 > n2)
+            {
+                nums1[k] = n1;
+                i = i - 1;
+            }
+            else
+            {
+                nums1[k] = n2;
+                j = j - 1;
+            }
+            k = k - 1;
+        }
+    }
     public int StrStr(string haystack, string needle)
     {
         var needlelength = needle.Length;
@@ -428,6 +504,204 @@ public class Solution
             System.Console.Write(digit);
     }
 
+    public string AddBinary(string a, string b)
+    {
+        // 1010
+        //0101
+        var i = a.Length - 1;
+        var j = b.Length - 1;
+        var carry = '0';
+        var total = "";
+        while (i >= 0 || j >= 0)
+        {
+            //11
+            //1
+            var numb1 = i >= 0 ? a[i] : '0';
+            var numb2 = j >= 0 ? b[j] : '0';
+            //1,2,3,4,5,6,7,8
+            var result = calculate(numb1, numb2);
+            // carry = result.carry;
+            var sum = calculate(carry, result.sum);
+
+            carry = calculate(result.carry, sum.carry).sum;
+            total = sum.sum + total;
+            i--;
+            j--;
+        }
+
+        if (carry == '1')
+        {
+            total = carry + total;
+        }
+
+        return total;
+    }
+
+    public int MySqrt(int x)
+    {
+        if (x == 0 || x == 1)
+        {
+            return x;
+        }
+
+        var start = 1;
+        var end = x;
+        int mid = 0;
+        while (start <= end)
+        {
+            mid = start + (end - start) / 2;
+            if (mid == x / mid)
+            {
+                return mid;
+            }
+            else if (mid > x / mid)
+            {
+                end = mid - 1;
+            }
+            else if (mid < x / mid)
+            {
+                start = mid + 1;
+            }
+
+        }
+        return end;
+    }
+
+    public int ClimbStairs(int n)
+    {
+        int[] numbs = new int[45];
+
+        numbs[1] = 1;
+        numbs[2] = 2;
+
+
+
+        return ClimbStairsRec(n, numbs);
+    }
+
+    public ListNode DeleteDuplicates(ListNode head)
+    {
+        if (head == null)
+        {
+            return head;
+        }
+        Traverselst(head);
+        return head;
+    }
+
+    private void Traverselst(ListNode node)
+    {
+        if (node == null || node.next == null)
+        {
+            return;
+        }
+        node.next = RemoveDuplicates(node.next, node.val);
+        Traverselst(node.next);
+    }
+
+    public ListNode RemoveDupesFromLst(ListNode head)
+    {
+        var currentNode = head;
+        var checkNode = currentNode.next;
+        while (currentNode != null && checkNode != null)
+        {
+            if (checkNode.val == currentNode.val)
+            {
+                checkNode = checkNode.next;
+                continue;
+            }
+            else
+            {
+                currentNode.next = checkNode;
+                currentNode = currentNode.next;
+                checkNode = checkNode.next;
+            }
+        }
+        currentNode.next = null;
+        return head;
+    }
+
+    public int[] MergeSortedArray(int[] arr1, int[] arr2)
+    {
+        // 1,2,4,6   1,3,5,5
+        var l1 = arr1.Length;
+        var l2 = arr2.Length;
+        int mov1 = 0, mov2 = 0;
+
+        var newArr = new int[l1 + l2];
+        int i = 0;
+        while (mov1 < l1 || mov2 < l2)
+        {
+            var val1 = mov1 < l1 ? arr1[mov1] : 0;
+            var val2 = mov2 < l2 ? arr2[mov2] : 0;
+            if (val1 < val2)
+            {
+                newArr[i] = val1;
+                mov1 = mov1 + 1;
+            }
+            else
+            {
+                newArr[i] = val2;
+                mov2 = mov2 + 1;
+            }
+
+            i++;
+        }
+        return newArr;
+    }
+    private ListNode RemoveDuplicates(ListNode node, int value)
+    {
+        var checkNode = node;
+        while (checkNode.val == value)
+        {
+            if (checkNode.next == null)
+            {
+                return null;
+            }
+            checkNode = checkNode.next;
+        }
+
+        return checkNode;
+    }
+
+    private int ClimbStairsRec(int n, int[] numbs)
+    {
+        if (n == 1)
+        {
+            return numbs[1];
+        }
+        if (n == 2)
+        {
+            return numbs[2];
+        }
+        var numb1 = numbs[n - 2] == 0 ? ClimbStairsRec(n - 2, numbs) : numbs[n - 2];
+        var numb2 = numbs[n - 1] == 0 ? ClimbStairsRec(n - 1, numbs) : numbs[n - 1];
+        // System.Console.WriteLine($"number1 {numb1}" +$" numb2 {numb2}" );
+        var result = numb1 + numb2;
+        numbs[n] = result;
+        return result;
+    }
+
+    private (char carry, char sum) calculate(char numb1, char numb2)
+    {
+        if (numb1 == '0' && numb2 == '0')
+        {
+            return ('0', '0');
+        }
+        else if ((numb1 == '1' && numb2 == '0') || (numb1 == '0' && numb2 == '1'))
+        {
+            return ('0', '1');
+        }
+        else if ((numb1 == '1') && (numb2 == '1'))
+        {
+            return ('1', '0');
+        }
+        else
+        {
+            throw new Exception("nothing");
+        }
+    }
+
 }
 
 
@@ -439,5 +713,17 @@ public class ListNode
     {
         this.val = val;
         this.next = next;
+    }
+}
+public class TreeNode
+{
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
+    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    {
+        this.val = val;
+        this.left = left;
+        this.right = right;
     }
 }
