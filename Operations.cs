@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 public static class Operations
 {
-
+//tets
     public static Node list;
     public static int[] randomList = { 2, 7, 3, 1, 0, 5, 4, 6 };
     private static int count = 0;
@@ -17,6 +17,7 @@ public static class Operations
         //var tempNodeArray = new List<Node>();
         foreach (var val in valArr)
         {
+            // add tests
             if (start)
             {
                 currentNode.value = val;
