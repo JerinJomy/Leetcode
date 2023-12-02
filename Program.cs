@@ -23,10 +23,12 @@ using solution;
 //     var input = Console.ReadLine();
 //     Console.WriteLine(sol.IsValid(input));
 // }
-
+System.Console.WriteLine("start");
 var sol = new Solution();
-sol.PrintArray(sol.PlusOne(new int[] {9,9,9,9}));
-
+// var lst = sol.PopulateListNode(new int[] { 1,2,3,4,4,5,5,6,7 });
+// sol.Traverse(lst);
+var root = sol.PopulateTree(new int[] { 1, 2, 3, 4 });
+System.Console.WriteLine(sol.CalculateDepth(root, 0));
 // var str = Console.ReadLine();
 // System.Console.WriteLine(sol.LengthOfLastWord(str));
 

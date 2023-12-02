@@ -1,7 +1,4 @@
-using System.ComponentModel;
 using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml.XPath;
 
 public class Solution
 {
@@ -300,7 +297,7 @@ public class Solution
 
     public void PrintPreorder(TreeNode node)
     {
-        if(node == null)
+        if (node == null)
         {
             return;
         }
@@ -700,6 +697,16 @@ public class Solution
         {
             throw new Exception("nothing");
         }
+    }
+
+    public int CalculateDepth(TreeNode node, int depth)
+    {
+        if (node == null)
+        {
+            return depth;
+        }
+        depth = depth + 1;
+        return Math.Max(CalculateDepth(node.left, depth), CalculateDepth(node.right, depth));
     }
 
 }
