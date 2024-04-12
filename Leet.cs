@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Serialization;
 
 public class Solution
 {
@@ -87,6 +89,41 @@ public class Solution
         return j;
     }
 
+    public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+    {
+        var a = GetNumberFromList(l1);
+        long sum = GetNumberFromList(l1) + GetNumberFromList(l2);
+        var newNode = new ListNode();
+        var node = newNode;
+        while (sum != 0)
+        {
+            var rem = sum % 10;
+            sum = sum / 10;
+            node.val = (int)rem;
+            if (sum != 0)
+            {
+                node.next = new ListNode();
+                node = node.next;
+            }
+        }
+        return newNode;
+    }
+
+    private long GetNumberFromList(ListNode listNode)
+    {
+        double number = 0;
+        var node = listNode;
+        var multiplier = 1;
+        while (node != null)
+        {
+            var value = node.val;
+            number = number + value * multiplier;
+            node = node.next;
+            multiplier = multiplier * 10;
+        }
+
+        return number;
+    }
     public int RemoveElements(int[] nums, int val)
     {
         int j = 0;
@@ -255,7 +292,36 @@ public class Solution
         }
     }
 
-    public TreeNode PopulateTree(int[] numbers)
+    public TreeNode PopulatetreeNode(int[] numbers)
+    {
+        // [1,2,4,4,5]
+        var root = new TreeNode() { val = numbers[0] };
+        insertRec(root, numbers, 0);
+        return root;
+    }
+
+    private void insertRec(TreeNode node, int[] numbers, int nodeIndex)
+    {
+        // 1,2,3,4,5,6,7
+        int leftNodeIndex = 2 * nodeIndex + 1;
+        if (leftNodeIndex < numbers.Length)
+        {
+            var leftNode = new TreeNode();
+            node.left = leftNode;
+            leftNode.val = numbers[leftNodeIndex];
+            insertRec(leftNode, numbers, 2 * nodeIndex + 1);
+        }
+
+        int rightNodeIndex = 2 * nodeIndex + 2;
+        if (rightNodeIndex < numbers.Length)
+        {
+            var rightNode = new TreeNode();
+            node.right = rightNode;
+            rightNode.val = numbers[rightNodeIndex];
+            insertRec(rightNode, numbers, 2 * nodeIndex + 2);
+        }
+    }
+    public TreeNode PopulateTree(int?[] numbers)
     {
         //0,1,2,3,4,6
         var numberQueue = new Queue<TreeNode>();
@@ -709,6 +775,54 @@ public class Solution
         return Math.Max(CalculateDepth(node.left, depth), CalculateDepth(node.right, depth));
     }
 
+    public bool DetectCapitalUse(string word)
+    {
+        bool[] wordCaseArr = new bool[word.Length];
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            wordCaseArr[i] = Char.IsUpper(word[i]);
+            // System.Console.WriteLine(wordCaseArr[i]);
+        }
+        if (word.Length < 2)
+        {
+            return true;
+        }
+        var istrue = true;
+        var isFirstLetterCap = wordCaseArr[0];
+        if (isFirstLetterCap)
+        {
+            var caseType = wordCaseArr[1];
+            if (wordCaseArr.Length == 2)
+            {
+                return true;
+            }
+            for (int i = 2; i < wordCaseArr.Length; i++)
+            {
+                if (caseType != wordCaseArr[i])
+                {
+                    istrue = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 1; i < wordCaseArr.Length; i++)
+            {
+                if (wordCaseArr[i])
+                {
+                    istrue = false;
+                    break;
+                }
+            }
+        }
+
+
+        return istrue;
+    }
+
+
 }
 
 
@@ -724,10 +838,10 @@ public class ListNode
 }
 public class TreeNode
 {
-    public int val;
+    public int? val;
     public TreeNode left;
     public TreeNode right;
-    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    public TreeNode(int? val = 0, TreeNode left = null, TreeNode right = null)
     {
         this.val = val;
         this.left = left;
