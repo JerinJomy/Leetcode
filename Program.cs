@@ -2,7 +2,7 @@
 using System.Security.AccessControl;
 using AutoMapper;
 using linkedList;
-using solution;
+using leet;
 
 //test
 
@@ -24,17 +24,15 @@ using solution;
 //     Console.WriteLine(sol.IsValid(input));
 // }
 System.Console.WriteLine("start");
-var sol = new Solution();
-// var lst = sol.PopulateListNode(new int[] { 1,2,3,4,4,5,5,6,7 });
-// sol.Traverse(lst);
-var root = sol.PopulateTree(new int[] { 1, 2, 3, 4 });
-System.Console.WriteLine(sol.CalculateDepth(root, 0));
-// var str = Console.ReadLine();
-// System.Console.WriteLine(sol.LengthOfLastWord(str));
 
-// Console.WriteLine(sol.RemoveElements(new int[] {3,2,2,3},3));
-// var list1 = sol.PopulateListNode(new int[] { 1, 2, 4 });
-// var list2 = sol.PopulateListNode(new int[] { 1, 3, 4 });
-// sol.Traverse(sol.MergeList(list1,list2)); 
+var ints = new int []{1,6,1,9,3,8,4,2,7,3,5};
+var sol = new Solution();
+
+sol.QuickSort(ints,0,ints.Length-1);
+sol.PrintArray(ints);
+
+// var max=sol.SellStock(new int[] {7, 2, 5, 6, 3, 1, 4 });
+// Console.WriteLine(max);
+
 
 

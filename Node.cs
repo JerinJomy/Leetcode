@@ -12,4 +12,5 @@ public class Node
     public int value;
     public Node NextNode;
     public Node RandomNode;
+    
 }
