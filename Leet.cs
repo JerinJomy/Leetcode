@@ -605,12 +605,7 @@ namespace leet
             return digits;
         }
 
-        public void PrintArray(int[] digits)
-        {
-            foreach (var digit in digits)
-                System.Console.Write(digit);
-        }
-
+        
         public string AddBinary(string a, string b)
         {
             // 1010
