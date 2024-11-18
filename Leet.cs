@@ -605,7 +605,7 @@ namespace leet
             return digits;
         }
 
-        
+
         public string AddBinary(string a, string b)
         {
             // 1010
@@ -815,132 +815,30 @@ namespace leet
         }
 
         //[7, 1, 5, 3, 6, 4]
-        public int SellStock(int[] stockPrices)
-        {
-            int maxProfit = 0;
-            int lowest = stockPrices[0];
-            int buyingDay = 0, sellingDay = 0;
-            int lowestindex = 0;
-
-            for (int i = 1; i < stockPrices.Length; i++)
-            {
-                var price = stockPrices[i];
-                if (price < lowest)
-                {
-                    lowestindex = i;
-                    lowest = price;
-                    continue;
-                }
-                var currntProfit = price - lowest;
-                if (currntProfit > maxProfit)
-                {
-                    maxProfit = currntProfit;
-                    buyingDay = lowestindex;
-                    sellingDay = i;
-                }
-
-
-            }
-            System.Console.WriteLine($"buyon {buyingDay} sellon {sellingDay}");
-            return maxProfit;
-
-        }
-
-        public void MergeSort(int[] numbs)
-        {
-
-        }
-
-        //[1,4,2,6,5]
-        public void MergeSortedArray(int[] numbs, int l, int r)
-        {
-            if (l < r)
-            {
-                var m = l + (r - l) / 2;
-
-                MergeSortedArray(numbs, l, m);
-                MergeSortedArray(numbs, m + 1, r);
-
-
-            }
-        }
-
-        // private void SortAndMerge(int[] numbs, int l, int m, int r)
-        // {
-
-        //     var arr1 = new int[m - l + 1];
-        //     var arr2 = new int[r - m];
-
-        //     for (int i = l; i <= r; i++)
-        //     {
-        //         arr1[]
-        //     }
-        //     for (int i = l; i <= m; i++)
-        //     {
-
-        //     }
-        // }
-
-        public void QuickSort(int[] numbs, int low, int high)
-        {
-            if (high > low)
-            {
-                int pi = findPartation(numbs,low,high);
-
-                QuickSort(numbs,low,pi-1);
-                QuickSort(numbs,pi+1,high);
-            }
-        }
-
-        private int findPartation(int[] numbs, int low, int high)
-        {
-            var pivot = numbs[high];
-            int i = low - 1;
-            for (int j = low; j < high; j++)
-            {
-                if (pivot >= numbs[j])
-                {
-                    i++;
-                    Swap(numbs, i, j);
-                }
-            }
-            Swap(numbs, i + 1, high);
-            return i + 1;
-        }
-
-        private void Swap(int[] arr, int i, int j)
-        {
-            var temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
 
     }
 
 
-
-}
-
-
-public class ListNode
-{
-    public int val;
-    public ListNode next;
-    public ListNode(int val = 0, ListNode next = null)
+    public class ListNode
     {
-        this.val = val;
-        this.next = next;
+        public int val;
+        public ListNode next;
+        public ListNode(int val = 0, ListNode next = null)
+        {
+            this.val = val;
+            this.next = next;
+        }
     }
-}
-public class TreeNode
-{
-    public int val;
-    public TreeNode left;
-    public TreeNode right;
-    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    public class TreeNode
     {
-        this.val = val;
-        this.left = left;
-        this.right = right;
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+        {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

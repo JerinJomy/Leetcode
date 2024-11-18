@@ -5,6 +5,38 @@ namespace leet
 {
     public static class ArrayProblem
     {
+
+        public static int SellStock(int[] stockPrices)
+        {
+            int maxProfit = 0;
+            int lowest = stockPrices[0];
+            int buyingDay = 0, sellingDay = 0;
+            int lowestindex = 0;
+
+            for (int i = 1; i < stockPrices.Length; i++)
+            {
+                var price = stockPrices[i];
+                if (price < lowest)
+                {
+                    lowestindex = i;
+                    lowest = price;
+                    continue;
+                }
+                var currntProfit = price - lowest;
+                if (currntProfit > maxProfit)
+                {
+                    maxProfit = currntProfit;
+                    buyingDay = lowestindex;
+                    sellingDay = i;
+                }
+
+
+            }
+            System.Console.WriteLine($"buyon {buyingDay} sellon {sellingDay}");
+            return maxProfit;
+
+        }
+        
         // using hashmap
         public static void LongestSubArrayWithSumK(int[] arr, int k)
         {
