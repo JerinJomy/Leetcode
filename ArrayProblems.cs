@@ -1,10 +1,50 @@
 using System.Net.Http.Headers;
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 
 namespace leet
 {
     public static class ArrayProblem
     {
+        // prefix sum problem
+        public static int LongestConsecutiveSubArray(int[] arr)
+        {
+            var numberSet = new HashSet<int>();
+            int? start = -199, count, maxcount = 0;
+            foreach (var numb in arr)
+            {
+                numberSet.Add(numb);
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var numb = arr[i];
+                if (!numberSet.Contains(numb - 1))
+                {
+                    count = 1;
+                    while (numberSet.Contains(numb + 1))
+                    {
+                        count++;
+                        numb = numb + 1;
+                    }
+
+                    if (count > maxcount)
+                    {
+                        maxcount = count;
+                        start = arr[i];
+                    }
+                }
+            }
+
+            count = 0;
+            while (count < maxcount)
+            {
+                Console.WriteLine(start + count);
+                count++;
+            }
+
+            return maxcount.Value;
+        }
 
         public static int SellStock(int[] stockPrices)
         {
@@ -22,6 +62,7 @@ namespace leet
                     lowest = price;
                     continue;
                 }
+
                 var currntProfit = price - lowest;
                 if (currntProfit > maxProfit)
                 {
@@ -29,14 +70,12 @@ namespace leet
                     buyingDay = lowestindex;
                     sellingDay = i;
                 }
-
-
             }
+
             System.Console.WriteLine($"buyon {buyingDay} sellon {sellingDay}");
             return maxProfit;
-
         }
-        
+
         // using hashmap
         public static void LongestSubArrayWithSumK(int[] arr, int k)
         {
@@ -55,6 +94,7 @@ namespace leet
                         end = i;
                         maxLen = i + 1;
                     }
+
                     continue;
                 }
 
@@ -66,6 +106,7 @@ namespace leet
                         start = sumMap[currentSum - k] + 1;
                         end = i;
                     }
+
                     break;
                 }
             }
@@ -84,6 +125,7 @@ namespace leet
                     Console.WriteLine($"firstnumber {sumMap[k - arr[i]]} second {i} ");
                     break;
                 }
+
                 sumMap.Add(arr[i], i);
             }
         }
@@ -113,7 +155,6 @@ namespace leet
             }
 
             System.Console.WriteLine("not found");
-
         }
 
         public static int[] SortOneTwoThree(int[] arr)
@@ -146,7 +187,6 @@ namespace leet
                 {
                     arr[i] = 1;
                     oneCount--;
-
                 }
                 else if (twoCount > 0)
                 {
@@ -154,6 +194,7 @@ namespace leet
                     twoCount--;
                 }
             }
+
             return arr;
         }
 
@@ -176,7 +217,6 @@ namespace leet
                 {
                     count--;
                 }
-
             }
 
             return majElement;
@@ -190,7 +230,6 @@ namespace leet
         }
 
 
-
         //Kadane's Algorithm
         public static int MaxContinSubarray(int[] nums)
         {
@@ -199,7 +238,6 @@ namespace leet
             int startIndex = 0, endIndex = 0, currentStartIndex = 0;
             for (int i = 1; i < nums.Length; i++)
             {
-
                 if ((currentMax + nums[i]) > nums[i])
                 {
                     currentMax = currentMax + nums[i];
@@ -243,7 +281,7 @@ namespace leet
 
             if (pivot == -1)
             {
-                ReverseSubarray(nums,0,nums.Length-1);
+                ReverseSubarray(nums, 0, nums.Length - 1);
                 return;
             }
 
@@ -260,6 +298,26 @@ namespace leet
             ReverseSubarray(nums, pivot + 1, nums.Length - 1);
         }
 
+// prefix sum problem
+        public static int CountSubarrayWithGivenSum(int[] nums, int k)
+        {
+            int sum = 0, count = 0;
+            var prefixSum = new Dictionary<int, int>();
+            prefixSum.Add(0, 1);
+            for (int i = 0; i < nums.Length; i++)
+            {
+                sum += nums[i];
+                if (prefixSum.ContainsKey(sum - k))
+                {
+                    count += prefixSum[sum - k];
+                }
+
+                prefixSum[sum] = prefixSum.ContainsKey(sum) ? prefixSum[sum] + 1 : 1;
+            }
+
+            return count;
+        }
+
         public static void ReverseSubarray(int[] arr, int start, int end)
         {
             while (start < end)
@@ -270,13 +328,55 @@ namespace leet
             }
         }
 
-        private static void Swap(int[] arr, int i, int j)
+        public static void TransposeMatrix(int[,] matrix)
         {
-            var temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+            PrintMatrix(matrix);
+            Console.WriteLine();
+            int cols = matrix.GetLength(0), rows = matrix.GetLength(1);
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = row; col < cols; col++)
+                {
+                    (matrix[row, col], matrix[col, row]) = (matrix[col, row], matrix[row, col]);
+                }
+            }
+            
+            PrintMatrix(matrix);
         }
 
-
+        public static void ReverseMatrix(int[,] matrix)
+        {
+            int rows = matrix.GetLength(0), cols = matrix.GetLength(1);
+            PrintMatrix(matrix);
+            Console.WriteLine();
+            for (int row = 0; row < rows; row++)
+            {
+                int start = 0, end = cols - 1;
+                while (start < end)
+                {
+                    (matrix[row, start],matrix[row, end]) = (matrix[row, end], matrix[row, start]);
+                    start++;    
+                }
+            }
+            
+            PrintMatrix(matrix);
+        }
+        public static void PrintMatrix(int[,] matrix)
+        {
+             int rows = matrix.GetLength(0), cols = matrix.GetLength(1);
+             for (int row = 0; row < rows; row++)
+             {
+                 for (int col = 0; col < cols ; col++)
+                 {
+                     Console.Write(matrix[row, col] + " ");
+                 }
+                 Console.WriteLine();
+             }
+        }
+        
+        private static void Swap(int[] arr, int i, int j)
+        {
+            (arr[i], arr[j]) = (arr[j], arr[i]);
+        }
     }
 }

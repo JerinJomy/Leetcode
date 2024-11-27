@@ -9,10 +9,11 @@ System.Console.WriteLine("start");
 
 // var max=sol.SellStock(new int[] {7, 2, 5, 6, 3, 1, 4 });
 // Console.WriteLine(max);
-var arr1 = new int[] {3,2,1};
+var arr1 = new int[] {1, -1, 1, 1, 1};
 
-  ArrayProblem.NextPermutation(arr1);
- arr1.PrintArray();
+// Console.WriteLine( ArrayProblem.CountSubarrayWithGivenSum(arr1,2));
+ var matrix = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+ArrayProblem.ReverseMatrix(matrix);
 
 
 
